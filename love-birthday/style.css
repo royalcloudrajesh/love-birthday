@@ -1,0 +1,150 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.screen {
+  background: #fff;
+  width: 340px;
+  height: 520px;
+  border-radius: 20px;
+  padding: 15px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+.screen.centered {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+button {
+  padding: 12px 22px;
+  border-radius: 25px;
+  border: none;
+  background: #ff4d6d;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.hidden { display: none; }
+
+/* ===== PUZZLE ===== */
+.puzzle {
+  width: 280px;
+  height: 280px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+}
+
+.piece {
+  width: 138px;
+  height: 138px;
+  background-image: url("images/wife.jpg");
+  background-size: 280px 280px;
+  cursor: grab;
+}
+
+/* ===== FALLING ===== */
+.fall {
+  position: absolute;
+  top: -80px;
+  width: 70px;
+  animation: fallDown 4s linear forwards;
+}
+
+@keyframes fallDown {
+  to { top: 520px; }
+}
+
+/* ===== BUCKET ===== */
+#bucket {
+  position: absolute;
+  bottom: 10px;
+  font-size: 48px;
+}
+
+/* ===== OPTIONS ===== */
+.loveBtn {
+  background: #007bff;
+  color: white;
+  width: 90%;
+  margin: 6px auto;
+}
+
+/* ===== MEMORY ===== */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+
+.card {
+  height: 60px;
+  background: #ffd6e0;
+  border-radius: 10px;
+  font-size: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* ===== LOADER ===== */
+.loader {
+  font-size: 30px;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  50% { opacity: .3 }
+}
+
+/* ===== FINAL ===== */
+.final {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, #ff758c, #ff7eb3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-align: center;
+}
+
+.final img {
+  width: 85%;
+  max-width: 480px;
+}
+
+.flower {
+  position: fixed;
+  top: -40px;
+  font-size: 32px;
+  animation: fallDown 6s linear infinite;
+}
+
+.cracker {
+  position: fixed;
+  font-size: 50px;
+  animation: burst 1.2s ease-out infinite;
+}
+
+@keyframes burst {
+  from { transform: scale(0); opacity: 1; }
+  to { transform: scale(2.5); opacity: 0; }
+}

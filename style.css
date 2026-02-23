@@ -1,0 +1,203 @@
+body{
+  margin:0;
+  font-family:Arial;
+  background:linear-gradient(135deg,#ffdde1,#ee9ca7);
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  touch-action:none;
+}
+
+/* SCREEN */
+.screen{
+  background:#fff;
+  width:92vw;
+  max-width:360px;
+  height:90vh;
+  max-height:560px;
+  border-radius:20px;
+  padding:15px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 10px 25px rgba(0,0,0,.3);
+}
+
+.centered{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+}
+
+button{
+  padding:14px 26px;
+  border:none;
+  border-radius:30px;
+  background:#ff4d6d;
+  color:#fff;
+  font-size:17px;
+  margin-top:16px;
+  cursor:pointer;
+  touch-action:manipulation;
+}
+
+.hidden{display:none}
+
+/* PUZZLE */
+.puzzle{
+  width:280px;
+  height:280px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:2px;
+}
+.piece{
+  width:138px;
+  height:138px;
+  background:url("images/wife.jpg");
+  background-size:280px 280px;
+  cursor:grab;
+  touch-action:none;
+}
+
+/* FALLING */
+.fall{
+  position:absolute;
+  top:-80px;
+  width:60px;
+  max-width:18vw;
+  animation:fallDown 4s linear forwards;
+}
+@keyframes fallDown{to{top:520px}}
+
+/* PHOTO */
+.bigImg{width:90px}
+
+/* BUCKET */
+#bucket{
+  position:absolute;
+  bottom:12px;
+  font-size:56px;
+  touch-action:none;
+}
+
+/* OPTIONS */
+.loveBtn{
+  background:#007bff;
+  color:#fff;
+  width:90%;
+  margin:6px auto;
+}
+
+/* MEMORY */
+.cards{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:8px;
+}
+.card{
+  height:64px;
+  background:#ffd6e0;
+  border-radius:12px;
+  font-size:28px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  cursor:pointer;
+  touch-action:manipulation;
+}
+
+/* LOADER */
+.loader{
+  font-size:30px;
+  animation:pulse 1s infinite;
+}
+@keyframes pulse{50%{opacity:.3}}
+
+/* FINAL */
+.final{
+  position:fixed;
+  inset:0;
+  background:linear-gradient(135deg,#ff758c,#ff7eb3);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  color:white;
+  text-align:center;
+}
+.final img{
+  width:85%;
+  max-width:480px;
+}
+
+/* FLOWERS */
+.flower{
+  position:fixed;
+  top:-40px;
+  font-size:32px;
+  animation:fallDown 6s linear infinite;
+}
+
+.bigEmoji{font-size:30px}
+
+/* ================= NEW ANIMATIONS ================= */
+
+/* Slow word-by-word fade in */
+.fade-word {
+  opacity: 0;
+  display: inline-block;
+  animation: fadeInWord 1s forwards; 
+}
+@keyframes fadeInWord {
+  to { opacity: 1; }
+}
+
+/* Earth & Heart Container */
+.earth-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 80px;
+  margin: 15px auto;
+}
+
+/* Rotating Earth Effect */
+.rotate-earth {
+  font-size: 60px;
+  z-index: 2;
+  animation: spinEarth 4s linear infinite;
+}
+@keyframes spinEarth {
+  100% { transform: rotate(360deg); }
+}
+
+/* Popping out Heart Effect (Zooms from center and moves right) */
+.zoom-heart {
+  position: absolute;
+  font-size: 40px;
+  z-index: 1;
+  opacity: 0;
+  /* Stays completely hidden until its animation delay starts */
+  animation: zoomOutHeart 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes zoomOutHeart {
+  0% { 
+    opacity: 0; 
+    transform: scale(0) translateX(0); 
+  }
+  50% { 
+    opacity: 1; 
+    transform: scale(1.3) translateX(15px); /* Zooms up slightly behind Earth */
+  }
+  100% { 
+    opacity: 1; 
+    transform: scale(1) translateX(45px); /* Settles down next to Earth */
+  }
+}

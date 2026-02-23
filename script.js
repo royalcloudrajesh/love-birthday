@@ -32,13 +32,12 @@ function setSafeTimeout(fn, ms) {
 }
 
 function clearAllTimers() {
-  // Clear timeouts and intervals
   activeIntervals.forEach(clearInterval);
   activeTimeouts.forEach(clearTimeout);
   activeIntervals = [];
   activeTimeouts = [];
   
-  // FORCE STOP the heart sound so it absolutely doesn't play on the next page
+  // FORCE STOP the heart sound
   sfx.heart.pause();
   sfx.heart.currentTime = 0;
 }
@@ -50,7 +49,7 @@ function play(sound){
 
 function next(){
   play(sfx.whoosh);
-  clearAllTimers(); // Completely kills all running games and sounds from previous page
+  clearAllTimers(); 
   stage++;
   loadStage();
 }
@@ -61,9 +60,41 @@ function restart(){
   romanticMusic.pause();
   romanticMusic.currentTime = 0;
   clearAllTimers();
+  
+  // Clean up falling flowers from final page
+  document.querySelectorAll('.flower').forEach(f => f.remove());
+  
   stage = 0;
   loadStage();
 }
+
+/* TOUCH DETECTION (Used to fix mobile hovering on Page 5) */
+let isMobileTouch = false;
+document.addEventListener('touchstart', () => isMobileTouch = true, {once: true});
+
+window.loveHover = function(btn) {
+  if (isMobileTouch) return; // Prevent double-trigger on mobile
+  if (btn.innerText !== 'My Husband ❤️') {
+    btn.innerText = 'My Husband ❤️';
+    play(sfx.correct);
+  }
+};
+
+window.loveClick = function(btn) {
+  if (btn.dataset.clicked) return;
+  btn.dataset.clicked = 'true';
+  
+  if (isMobileTouch) {
+    // Mobile experience: Tap to reveal, wait 1.2s, then go to next
+    btn.innerText = 'My Husband ❤️';
+    play(sfx.correct);
+    document.querySelectorAll('.loveBtn').forEach(b => b.style.pointerEvents = 'none');
+    setTimeout(() => next(), 1200);
+  } else {
+    // Desktop experience: Hover already revealed it, instantly go next
+    next();
+  }
+};
 
 /* ================= STAGES ================= */
 
@@ -112,7 +143,7 @@ function loadStage(){
     findMyPhoto();
   }
 
-  /* PAGE 5 – WHO LOVES YOU MOST (Changed to correct.mp3) */
+  /* PAGE 5 – WHO LOVES YOU MOST */
   if(stage===4){
     const ops=["Dad","Mom","Son","Brother","Sister-in-law","Mother-in-law","Friend"];
     app.innerHTML=`
@@ -120,8 +151,8 @@ function loadStage(){
     <h3>Who Loves You Most? 😘</h3>
     ${ops.map(o=>`
     <button class="loveBtn"
-    onmouseover="this.innerText='My Husband ❤️'; play(sfx.correct);"
-    onclick="next()">${o}</button>`).join("")}
+    onmouseover="loveHover(this)"
+    onclick="loveClick(this)">${o}</button>`).join("")}
     </div>`;
   }
 
@@ -136,7 +167,7 @@ function loadStage(){
     memoryGame();
   }
 
-  /* PAGE 7 (Read Carefully - Starts Romantic Music) */
+  /* PAGE 7 */
   if(stage===6){
     romanticMusic.volume = 0.5;
     romanticMusic.play().catch(e => console.log("Audio playback blocked:", e));
@@ -160,7 +191,7 @@ function loadStage(){
     }, (totalTime + 1.5) * 1000);
   }
 
-  /* PAGE 8 (You Are My Everything - Music Continues) */
+  /* PAGE 8 */
   if(stage===7){
     const text = "You Are My Everything";
     const words = text.split(" ");
@@ -190,11 +221,11 @@ function loadStage(){
     }, (totalTime + 2.5) * 1000);
   }
 
-  /* PAGE 9 (Loading - Syncs Heartbeat Sound to Animation) */
+  /* PAGE 9 (Loading - Syncs Heartbeat) */
   if(stage===8){
-    romanticMusic.pause(); // Stop romantic music to build suspense
+    romanticMusic.pause(); 
 
-    // Play heartbeat instantly, then loop every 1s to match CSS pulse animation
+    // Play heartbeat instantly, then loop
     play(sfx.heart);
     setSafeInterval(() => {
       if(stage === 8) play(sfx.heart);
@@ -212,7 +243,7 @@ function loadStage(){
     }, 3000);
   }
 
-  /* PAGE 10 – FINAL (Added Name) */
+  /* PAGE 10 – FINAL */
   if(stage===9){
     bgMusic.volume = 0.4;
     bgMusic.play().catch(e => console.log(e));
